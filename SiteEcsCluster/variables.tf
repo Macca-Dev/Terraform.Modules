@@ -5,14 +5,16 @@ variable "app" {}
 variable "asg-min" {}
 variable "asg-max" {}
 variable "asg-desired" {}
-variable "keypair-name" {}
+variable "keypair-name" {
+    type = "map"
+}
 variable "instance-profile" {}
 variable "user-data" {}
 
 variable "vpc-id" {
     type = "map"
     default = {
-        uat = ""
+        uat = "vpc-5947393e"
         prod = ""
     }
 }
@@ -35,7 +37,14 @@ variable "alb-healthcheck-interval" {
 variable "alb-subnets" {
     type = "map"
     default = {
-        uat = ""
+        uat = "subnet-40968218,subnet-ae43f0e7,subnet-f968f19e"
+        prod = ""
+    }
+}
+variable "ec2-subnet-ids" {
+    type = "map"
+    default = {
+        uat = "subnet-6a41f223,subnet-cb6bf2ac,subnet-4797831f"
         prod = ""
     }
 }
@@ -48,8 +57,8 @@ variable "alb-listener-protocol" {
 variable "ami" {
     type = "map"
     default = {
-        uat = ""
-        prod = ""
+        uat = "ami-62d35c02"
+        prod = "ami-275ffe31"
     }
 }
 variable "asg-healthcheck-type" {
@@ -82,18 +91,3 @@ variable "region" {
         prod = "us-east-1"
     }
 }
-variable "zonie-id" {
-    type = "map"
-    default = {
-        uat = ""
-        prod = ""
-    }
-}
-variable "zonie-name" {
-    type = "map"
-    default = {
-        uat = ""
-        prod = ""
-    }
-}
-

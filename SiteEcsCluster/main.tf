@@ -37,7 +37,7 @@ resource "aws_autoscaling_group" "asg" {
 }
 
 resource "aws_launch_configuration" "lc" {
-  image_id             = "${lookup(var.ami, var.aws-account)}"
+  image_id             = "${lookup(var.ami, var.env)}"
   instance_type        = "${lookup(var.instance-type, var.env)}"
   key_name             = "${lookup(var.keypair-name, var.env)}"
   name_prefix          = "${var.env}-${var.app}"
@@ -86,26 +86,6 @@ resource "aws_alb_listener" "alblistener" {
   default_action {
     target_group_arn = "${aws_alb_target_group.targetgroup.arn}"
     type             = "forward"
-  }
-}
-
-output "alb-dns-name" {
-  value = "${aws_alb.alb.dns_name}"
-}
-
-output "alb-zone-id" {
-  value = "${aws_alb.alb.zone_id}"
-}
-
-resource "aws_route53_record" "dns" {
-  zone_id = "${lookup(var.zone-id, var.env)}"
-  name    = "${var.app}${lookup(var.zone-name, var.env)}"
-  type    = "A"
-
-  alias {
-    name                   = "${aws_alb.alb.dns_name}"
-    zone_id                = "${aws_alb.alb.zone_id}"
-    evaluate_target_health = false
   }
 }
 
